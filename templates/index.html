@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Archivo Excel</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Tu CSS personalizado -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="container mt-5">
+
+    <h2 class="mb-4">Subir Archivo Excel</h2>
+    
+
+
+    <!-- Mostrar mensajes flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert fade show" role="alert">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} mb-2">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+ 
+    
+    <!-- Formulario de carga de archivos -->
+    <form method="post" enctype="multipart/form-data" class="form-group">
+        <div class="mb-5">
+            <label for="file" class="form-label">Selecciona un archivo Excel:</label>
+            <input type="file" id="file" name="file" accept=".xlsx" class="form-control" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 180px;">Subir</button>
+
+
+
+    </form>
+    
+    
+    <!-- Bootstrap JS and dependencies (Optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

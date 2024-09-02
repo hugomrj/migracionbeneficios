@@ -1,0 +1,70 @@
+# Entorno virtual
+venv/
+ENV/
+env/
+.venv/
+.pyenv/
+build/
+dist/
+
+# Archivos de configuración de entornos específicos
+*.env
+*.flaskenv
+instance/
+
+# Archivos de Python compilados
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Configuraciones de IDEs
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de log
+*.log
+
+# Archivos de bases de datos locales
+*.sqlite3
+*.db
+
+# Archivos de configuraciones de la aplicación
+config.py
+
+# Archivos de distribución de Python
+*.egg
+*.egg-info/
+.eggs/
+
+# Documentación generada
+docs/_build/
+
+# Directorios de cobertura de tests
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Archivos creados por PyInstaller
+# Los nombres pueden variar dependiendo de tu proyecto
+*.manifest
+*.spec
+
+# Archivos y carpetas ignoradas en general
+*.bak
+*.swp
+.DS_Store
+*.tmp
+*.~lock.*
+*.part
+*.gz
+*.log
