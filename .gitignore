@@ -31,8 +31,6 @@ __pycache__/
 *.sqlite3
 *.db
 
-# Archivos de configuraciones de la aplicación
-config.py
 
 # Archivos de distribución de Python
 *.egg
