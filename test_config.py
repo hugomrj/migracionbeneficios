@@ -1,10 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from config import Config
+from config import DevelopmentConfig  # Importa la configuración de desarrollo
 
 # Crear una instancia de Flask y configurar la aplicación
 app = Flask(__name__)
-app.config.from_object(Config)
+app.config.from_object(DevelopmentConfig)  # Cargar la configuración
 
 # Inicializar SQLAlchemy con la configuración de la aplicación
 db = SQLAlchemy(app)
@@ -18,7 +18,6 @@ def index():
     except Exception as e:
         return f"Error al conectar a la base de datos: {e}"
 
-
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+    

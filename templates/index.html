@@ -15,8 +15,6 @@
 
     <h2 class="mb-4">Subir Archivo Excel</h2>
     
-
-
     <!-- Mostrar mensajes flash -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -27,9 +25,9 @@
             </div>
         {% endif %}
     {% endwith %}
-
- 
     
+
+
     <!-- Formulario de carga de archivos -->
     <form method="post" enctype="multipart/form-data" class="form-group">
         <div class="mb-5">
@@ -38,12 +36,18 @@
         </div>
         
         <button type="submit" class="btn btn-primary" style="width: 180px;">Subir</button>
-
-
-
     </form>
     
-    
+
+    <!-- Instrucciones para el archivo -->
+    <div class="alert alert-info mb-4" role="alert">
+        <strong>Instrucciones:</strong>
+        <ul>
+            <li>El archivo debe tener la extensión <strong>.xlsx</strong>.</li>            
+        </ul>
+    </div>
+
+
     <!-- Bootstrap JS and dependencies (Optional) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
