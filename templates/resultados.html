@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Migración</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Tu CSS personalizado -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+    <style>
+        .table-sm th, .table-sm td {
+            padding: 0.3rem;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h3 class="mb-4">Resultados de la Migración</h2>
+        <p><strong style="color: green;">Proceso ID:</strong> {{ proceso_id }}</p>
+
+
+        {% if resumen %}
+            <div class="card mb-4">
+
+                <div class="card-body">
+                    <p><strong>Presupuesto Total:</strong> {{ resumen.presupuesto | format_number }}</p>
+                    <p><strong>Devengado Total:</strong> {{ resumen.devengado | format_number }}</p>
+                    <p><strong>Jubilación Total:</strong> {{ resumen.jubilacion | format_number }}</p>
+                    <p><strong>Líquido Total:</strong> {{ resumen.liquido | format_number }}</p>
+                </div>
+            </div>
+        {% endif %}
+
+        <a class="btn btn-primary mb-4" style="width: 180px;" href="{{ url_for('index') }}">Volver</a>
+
+
+
+        {% if beneficios %}
+            <div class="card">
+                <div class="card-header">
+                    <h5>Detalles</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <thead>
+                            <tr>
+                                <th>Cédula</th>
+                                <th>Presupuesto</th>
+                                <th>Devengado</th>
+                                <th>Jubilación</th>
+                                <th>Líquido</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for beneficio in beneficios %}
+                                <tr>
+                                    <td>{{ beneficio.cedula }}</td>
+                                    <td>{{ beneficio.presupues | format_number }}</td>
+                                    <td>{{ beneficio.devengado | format_number }}</td>
+                                    <td>{{ beneficio.jubilacion | format_number }}</td>
+                                    <td>{{ beneficio.liquido | format_number }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-warning mt-4" role="alert">
+                No se encontraron beneficios para este proceso.
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

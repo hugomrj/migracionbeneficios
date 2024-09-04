@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subir Archivo Excel</title>
+    <title>migrar_excel</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -40,12 +40,100 @@
     
 
     <!-- Instrucciones para el archivo -->
-    <div class="alert alert-info mb-4" role="alert">
+    <div class="alert alert-info mb-4 bg-light" role="alert">
         <strong>Instrucciones:</strong>
         <ul>
             <li>El archivo debe tener la extensión <strong>.xlsx</strong>.</li>            
+            <li>Debe 1 sola hoja.</li>     
+            <li>No debe  contener filas o columnas ocultas.</li>  
+            <li>Sin registro de montos totales.</li>  
         </ul>
     </div>
+
+
+
+<!-- MODELO DE ARCHIVO -->
+<div class="container">
+    <h5 class="text-center mb-3">MODELO DE ARCHIVO</h5>
+    
+    <!-- Tabla que incluye toda la información -->
+    <table class="table table-bordered table-sm small">
+        <thead>
+            <tr class="text-center">
+                <td class="bg-light font-italic"></td> <!-- Columna numerada con color de fondo y cursiva -->
+                <td>A</td>
+                <td>B</td>
+                <td>C</td>
+                <td>D</td>
+                <td>E</td>
+                <td>F</td>
+                <td>G</td>
+                <td>H</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="bg-light font-italic">1</td> <!-- Primera columna con color de fondo y cursiva -->
+                <td>AÑO</td>
+                <td>2024</td>
+            </tr>
+            <tr>
+                <td class="bg-light font-italic">2</td> <!-- Primera columna con color de fondo y cursiva -->
+                <td>MES</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td class="bg-light font-italic">3</td> <!-- Primera columna con color de fondo y cursiva -->
+                <td>OBJETO</td>
+                <td>133</td>
+            </tr>
+            <tr>
+                <td class="bg-light font-italic">4</td> <!-- Primera columna con color de fondo y cursiva -->
+                <td>CONCEPTO</td>
+                <td>1133030</td>
+            </tr>
+            <tr class="text-center" >
+                <td class="bg-light font-italic">5</td> <!-- Primera columna con color de fondo y cursiva -->
+                <th>NRO</th>
+                <th>CEDULA</th>
+                <th>NOMBRE</th>
+                <th>DEPENDENCIA</th>                
+                <th>PRESUPUESTADO</th>
+                <th>DEVENGADO</th>
+                <th>JUBILACION</th>
+                <th>LIQUIDO</th>
+            </tr>
+            <tr>
+                <td class="bg-light font-italic">6</td> <!-- Primera columna con color de fondo y cursiva -->
+                <td class="text-center" >1</td>
+                <td>3205773</td>
+                <td>ACOSTA FRANCO DAVID RICARDO</td>
+                <td>DIRECCION DE CERTIFICACION ACADEMICA</td>
+                <td>2.680.373</td>
+                <td>804.112</td>
+                <td>128.658</td>
+                <td>675.454</td>
+            </tr>
+            <tr>
+                <td class="bg-light font-italic">7</td> <!-- Primera columna con color de fondo y cursiva -->
+                <td class="text-center" >2</td>
+                <td>1575502</td>
+                <td>ACOSTA SELVA ELIZABETH</td>
+                <td>DIRECCION DE CERTIFICACION ACADEMICA</td>
+                <td>3.131.877</td>
+                <td>850.000</td>
+                <td>136.000</td>
+                <td>714.00</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+<br><br><br><br><br><br><br>
+
 
 
     <!-- Bootstrap JS and dependencies (Optional) -->
@@ -55,3 +143,4 @@
 
 </body>
 </html>
+

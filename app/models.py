@@ -19,3 +19,7 @@ class Beneficio(db.Model):
     tipo_rubro = db.Column(db.String(1), nullable=False, default=' ')
     ccargo = db.Column(db.Integer, nullable=False, default=0)
     tipo_traba = db.Column(db.Integer, nullable=False, default=0)
+    proceso_id = db.Column(db.String(50), nullable=True)
+
+
+
