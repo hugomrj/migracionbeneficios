@@ -4,6 +4,7 @@ import uuid
 import openpyxl
 import pandas as pd
 from flask import current_app as app
+from sqlalchemy import text
 from config import db
 from app.models import  Beneficio
 
@@ -63,8 +64,6 @@ def migrar_beneficios_excel(file):
 
 
 
-
-
     resultado = verificar_concepto_y_valor_numerico(file)
     if resultado:        
         concepto = resultado
@@ -74,8 +73,84 @@ def migrar_beneficios_excel(file):
         raise ValueError("Error en el registro de CONCEPTO")
 
 
+
+    resultado = verificar_planilla_y_valor_numerico(file)
+    if resultado:        
+        planilla = resultado
+        print(f"El valor de 'PLANILLA' es: {resultado}")
+    else:
+        concepto = 0
+        raise ValueError("Error en el registro de PLANILLA")
+
+
+
+    try:
+        # Realizar la consulta
+        query = text("""
+            SELECT * 
+            FROM concepto_nomina
+            WHERE og = :objeto AND codigo_concepto_nomina = :concepto
+        """)
+        
+        resultado = db.session.execute(query, {'objeto': objeto, 'concepto': concepto}).fetchone()
+
+        if resultado:
+            # Si el registro existe, continuar con el proceso
+            print(f"Registro encontrado: {resultado}")
+        else:
+            # Si no se encuentra el registro, mostrar error
+            raise ValueError('valores de objeto y/ concepto no validos')
+    except ValueError as ve:
+        # Capturamos solo el ValueError para no incluir otros errores
+        db.session.rollback()
+        raise ve
+    except Exception as e:
+        # Otras excepciones no deseadas se manejan aquí sin afectar el mensaje anterior
+        db.session.rollback()
+        raise ValueError("Error al realizar la consulta, verifique la conexión o SQL.")
+
+
+
+    try:
+        # Realizar la consulta para verificar si existen registros
+        query = text("""
+            SELECT * 
+            FROM sistemabase.beneficios_migracion
+            WHERE anio = :anio 
+            AND mes = :mes
+            AND codigo_concepto = :codigo_concepto
+            AND planilla = :planilla
+        """)
+        
+        resultado = db.session.execute(query, {
+            'anio': anio,
+            'mes': mes,
+            'codigo_concepto': concepto,
+            'planilla': planilla
+        }).fetchone()
+
+        if resultado:
+            # Si existen registros, mostrar un error
+            raise ValueError('Ya existen registros para los parámetros especificados.')
+        else:
+            # Si no se encuentran registros, continuar con el proceso
+            print("No se encontraron registros duplicados, continuar...")
+    except ValueError as ve:
+        # Capturamos solo el ValueError para no incluir otros errores
+        db.session.rollback()
+        raise ve
+    except Exception as e:
+        # Otras excepciones no deseadas se manejan aquí sin afectar el mensaje anterior
+        db.session.rollback()
+        raise ValueError("Error al realizar la consulta, verifique la conexión o SQL.")
+
+
+
+
+
+
     # Leer el archivo Excel
-    df = pd.read_excel(file, sheet_name=0, header=4)
+    df = pd.read_excel(file, sheet_name=0, header=5)
     with app.app_context():
         try:
             for index, row in df.iterrows():
@@ -127,6 +202,7 @@ def migrar_beneficios_excel(file):
                     mes=mes,
                     anio=anio,
                     codigo_concepto=concepto,
+                    planilla=planilla,
                     ccargo=0,  # Valor por defecto si no está en el Excel
                     tipo_traba=0  # Valor por defecto si no está en el Excel
                 )
@@ -139,11 +215,23 @@ def migrar_beneficios_excel(file):
 
             return proceso_id  
 
+
         except Exception as e:
             # Revertir cualquier cambio en caso de error
             db.session.rollback()
+            
+            
+            # Eliminar registros existentes con el mismo proceso_id en caso de error
+            db.session.query(Beneficio).filter_by(proceso_id=proceso_id).delete()
+            db.session.commit()            
+            
+            
             print(f"Error en la migración: {e}")            
             
+        
+        
+        
+        
         
         
 
@@ -167,6 +255,8 @@ def verificar_filas_columnas_ocultos(excel_file):
     except Exception as e:
         print(f"Error al verificar filas o columnas ocultas: {e}")
         return False  # En caso de error, considerar que hay filas o columnas ocultas
+
+
 
 
 
@@ -287,6 +377,35 @@ def verificar_concepto_y_valor_numerico(excel_file):
         print(f"Error al verificar el archivo: {e}")
         return False
 
+
+
+
+
+
+
+def verificar_planilla_y_valor_numerico(excel_file):
+    
+    try:
+        # Cargar el libro de trabajo con openpyxl
+        wb = openpyxl.load_workbook(excel_file, data_only=True)
+        ws = wb.active  # Obtener la primera hoja activa
+
+        
+        valor_concepto = ws.cell(row=5, column=1).value
+        if valor_concepto != "PLANILLA":
+            return False  
+
+        # Obtener el valor en la cuarta fila, segunda columna
+        valor_columna_2 = ws.cell(row=5, column=2).value
+        if not isinstance(valor_columna_2, (int, float)):
+            return False  # Si no es un valor numérico, retornar False
+
+        # Retornar el valor numérico si todo es correcto
+        return valor_columna_2
+
+    except Exception as e:
+        print(f"Error al verificar el archivo: {e}")
+        return False
 
 
 

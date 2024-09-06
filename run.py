@@ -25,20 +25,28 @@ def create_app():
     # Configurar una clave secreta para sesiones (usa un valor más seguro en producción)
     app.secret_key = os.getenv('SECRET_KEY', 'mi_clave_secreta')
 
-    # Configurar el filtro para formateo de números
+
+
+    # Configurar el filtro para formateo de números con puntos como separador de miles
     def format_number(value):
         try:
-            return "{:,}".format(value)
+            return "{:,.0f}".format(value).replace(",", ".")
         except (ValueError, TypeError):
             return value  # O puedes devolver un valor predeterminado
 
     app.jinja_env.filters['format_number'] = format_number
+
+
+
 
     # Imprimir la URL de la base de datos configurada
     print(f"Configuración activa: {config_class}")
     print(f"URL de la base de datos: {app.config['SQLALCHEMY_DATABASE_URI']}")
 
     return app
+
+
+
 
 if __name__ == '__main__':
     # Crear la aplicación Flask

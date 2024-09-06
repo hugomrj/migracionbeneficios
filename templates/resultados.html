@@ -24,20 +24,90 @@
         <p><strong style="color: green;">Proceso ID:</strong> {{ proceso_id }}</p>
 
 
+
+
         {% if resumen %}
-            <div class="card mb-4">
+        <div class="card mb-4">
+            <div class="card-body row">
 
-                <div class="card-body">
-                    <p><strong>Presupuesto Total:</strong> {{ resumen.presupuesto | format_number }}</p>
-                    <p><strong>Devengado Total:</strong> {{ resumen.devengado | format_number }}</p>
-                    <p><strong>Jubilación Total:</strong> {{ resumen.jubilacion | format_number }}</p>
-                    <p><strong>Líquido Total:</strong> {{ resumen.liquido | format_number }}</p>
-                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Presupuesto Total:</strong></p>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <p>{{ resumen.presupuesto | format_number }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Devengado Total:</strong></p>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <p>{{ resumen.devengado | format_number }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Jubilación Total:</strong></p>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <p>{{ resumen.jubilacion | format_number }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Líquido Total:</strong></p>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <p>{{ resumen.liquido | format_number }}</p>
+                        </div>
+                    </div>
+
+                </div>        
+
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Cantidad registros:</strong></p>
+                        </div>
+                        <div>
+                            <p>{{ cantidad_registros | format_number }}</p>
+                        </div>
+                    </div>
+                </div>        
+
             </div>
+        </div>
         {% endif %}
+    
+        
 
-        <a class="btn btn-primary mb-4" style="width: 180px;" href="{{ url_for('index') }}">Volver</a>
 
+        <!-- Botones  -->
+        <div class="row mb-4">
+            <div class="col">
+
+
+                <div class="d-flex">
+                    <form action="{{ url_for('eliminar_registros', proceso_id=proceso_id) }}" method="post">
+                        <button type="submit" 
+                        class="btn btn-danger mr-2"  style="width: 180px;">
+                        Cancelar migracion</button>
+                    </form>
+
+
+                    <a class="btn btn-primary" style="width: 180px;"
+                        href="{{ url_for('confirmar_migracion', proceso_id=proceso_id) }}">
+                        Confirmar migración
+                    </a>
+
+
+                </div>
+
+
+            </div>
+        </div>
 
 
         {% if beneficios %}

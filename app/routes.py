@@ -46,7 +46,41 @@ def configure_routes(app):
             func.sum(Beneficio.liquido).label('liquido')
         ).filter_by(proceso_id=proceso_id).first()
         
+        
+        # Contar la cantidad de registros
+        cantidad_registros = Beneficio.query.filter_by(proceso_id=proceso_id).count()        
+        
+        
         return render_template('resultados.html', 
-                               proceso_id=proceso_id,
-                               beneficios=beneficios,
-                               resumen=resumen)
+                            proceso_id=proceso_id,
+                            beneficios=beneficios,
+                            resumen=resumen,
+                            cantidad_registros=cantidad_registros)    
+        
+    
+    
+        
+    @app.route('/confirmar/<proceso_id>', methods=['GET'])
+    def confirmar_migracion(proceso_id):
+        # Solo muestra el mensaje de éxito y redirige a la página principal
+        flash('Archivo procesado y datos migrados con éxito.', 'success')
+        return redirect(url_for('index'))
+        
+
+
+    @app.route('/eliminar/<proceso_id>', methods=['POST'])
+    def eliminar_registros(proceso_id):
+        try:
+            # Eliminar los registros con el proceso_id dado
+            Beneficio.query.filter_by(proceso_id=proceso_id).delete()
+            db.session.commit()
+            flash('Migracion cancelada.', 'danger')
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error cancelar migracion: {e}', 'danger')
+        
+        return redirect(url_for('index'))         
+    
+    
+    
+    
