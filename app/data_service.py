@@ -151,12 +151,27 @@ def migrar_beneficios_excel(file):
 
     # Leer el archivo Excel
     df = pd.read_excel(file, sheet_name=0, header=5)
+    
+    # Verificar las cabeceras actuales
+    print(df.columns)
+
+    # Asegurarse de que las columnas necesarias estén presentes
+    required_columns = ['CEDULA', 'LETRA', 'PRESUPUESTADO', 'DEVENGADO', 'JUBILACION', 'LIQUIDO']
+    for col in required_columns:
+        if col not in df.columns:
+            print(f"Advertencia: Columna '{col}' no encontrada en las cabeceras.")
+            raise ValueError(f"Advertencia: Columna '{col}' no encontrada en las cabeceras.")
+        
+    
+    
+    
     with app.app_context():
         try:
             for index, row in df.iterrows():
 
                 # Verificar si alguna columna importante tiene NaN y asignar un valor predeterminado si es necesario
                 cedula = row.get('CEDULA')
+                letra = row.get('LETRA')
                 presupues = row.get('PRESUPUESTADO', 0)
                 devengado = row.get('DEVENGADO', 0)
                 jubilacion = row.get('JUBILACION', 0)
@@ -168,6 +183,11 @@ def migrar_beneficios_excel(file):
                 if pd.isna(cedula):
                     print(f"Fila {index + 1} - Cédula está vacío, omitiendo fila.")
                     continue  # O puedes manejar esto de otra manera si lo prefieres
+
+
+                # Verificar si el valor de letra es NaN y asignar vacío
+                if pd.isna(letra):
+                    letra = ''  # Asignar valor vacío si 'LETRA' es NaN
 
                 # Verificar si el valor de presupues es NaN
                 if pd.isna(presupues):
@@ -194,6 +214,7 @@ def migrar_beneficios_excel(file):
                 # Crear una instancia de Beneficio con los datos del archivo Excel
                 beneficio = Beneficio(
                     cedula=cedula,
+                    letra=letra,
                     presupues=presupues,
                     devengado=devengado,
                     jubilacion=jubilacion,
@@ -226,7 +247,7 @@ def migrar_beneficios_excel(file):
             db.session.commit()            
             
             
-            print(f"Error en la migración: {e}")            
+            raise ValueError(f"Error en la migración: {e}")            
             
         
         

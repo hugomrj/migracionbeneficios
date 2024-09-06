@@ -7,6 +7,8 @@ class Beneficio(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     cedula = db.Column(db.Integer, nullable=False, default=0)
+    letra = db.Column(db.String(2), nullable=True)
+    
     presupues = db.Column(db.Integer, nullable=False, default=0)
     devengado = db.Column(db.Integer, nullable=False, default=0)
     jubilacion = db.Column(db.Integer, nullable=False, default=0)
