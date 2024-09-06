@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -5,26 +7,42 @@ db = SQLAlchemy()
 class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-class DevelopmentConfig(Config):
-    SQLALCHEMY_DATABASE_USER = 'root'
-    SQLALCHEMY_DATABASE_PASSWORD = 'admin123'
-    SQLALCHEMY_DATABASE_HOST = '127.0.0.1'
-    SQLALCHEMY_DATABASE_PORT = '3306'
-    SQLALCHEMY_DATABASE_NAME = 'sistemabase'
+    @classmethod
+    def get_database_uri(cls):
+        user = os.getenv('SQLALCHEMY_DATABASE_USER')
+        password = os.getenv('SQLALCHEMY_DATABASE_PASSWORD')
+        host = os.getenv('SQLALCHEMY_DATABASE_HOST')
+        port = os.getenv('SQLALCHEMY_DATABASE_PORT')
+        name = os.getenv('SQLALCHEMY_DATABASE_NAME')
 
-    SQLALCHEMY_DATABASE_URI = (
-        f"mysql+mysqlconnector://{SQLALCHEMY_DATABASE_USER}:{SQLALCHEMY_DATABASE_PASSWORD}@"
-        f"{SQLALCHEMY_DATABASE_HOST}:{SQLALCHEMY_DATABASE_PORT}/{SQLALCHEMY_DATABASE_NAME}"
-    )
+        if not all([user, password, host, port, name]):
+            raise ValueError("Missing database configuration in environment variables")
+
+        return (
+            f"mysql+mysqlconnector://{user}:"
+            f"{password}@{host}:"
+            f"{port}/"
+            f"{name}"
+        )
+
+class DevelopmentConfig(Config):
+    @classmethod
+    def load_env(cls):
+        load_dotenv('.env.dev')
+        print("Loaded .env.dev")
+
+    @classmethod
+    def init_app(cls, app):
+        app.config['SQLALCHEMY_DATABASE_URI'] = cls.get_database_uri()
+        app.config['DEBUG'] = True
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_USER = 'user_prod'
-    SQLALCHEMY_DATABASE_PASSWORD = 'prod_pass'
-    SQLALCHEMY_DATABASE_HOST = 'prod_db_host'
-    SQLALCHEMY_DATABASE_PORT = '3306'
-    SQLALCHEMY_DATABASE_NAME = 'prod_database'
+    @classmethod
+    def load_env(cls):
+        load_dotenv('.env.prod')
+        print("Loaded .env.prod")
 
-    SQLALCHEMY_DATABASE_URI = (
-        f"mysql+mysqlconnector://{SQLALCHEMY_DATABASE_USER}:{SQLALCHEMY_DATABASE_PASSWORD}@"
-        f"{SQLALCHEMY_DATABASE_HOST}:{SQLALCHEMY_DATABASE_PORT}/{SQLALCHEMY_DATABASE_NAME}"
-    )
+    @classmethod
+    def init_app(cls, app):
+        app.config['SQLALCHEMY_DATABASE_URI'] = cls.get_database_uri()
+        app.config['DEBUG'] = False
