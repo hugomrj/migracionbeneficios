@@ -10,8 +10,8 @@ from app.models import Beneficio
 
 def configure_routes(app):
     
-    @app.route('/', methods=['GET', 'POST'])
-    def index():
+    @app.route('/migracion', methods=['GET', 'POST'])
+    def migracion():
         if request.method == 'POST':
             file = request.files.get('file')
             if file and file.filename.endswith('.xlsx'):
@@ -27,8 +27,8 @@ def configure_routes(app):
                     flash(f'Ocurrió un error al procesar el archivo: {e}', 'danger')
             else:
                 flash('Por favor, carga un archivo Excel válido.', 'warning')
-            return redirect(url_for('index'))
-        return render_template('index.html')
+            return redirect(url_for('migracion'))
+        return render_template('migracion.html')
     
     
         
@@ -64,7 +64,7 @@ def configure_routes(app):
     def confirmar_migracion(proceso_id):
         # Solo muestra el mensaje de éxito y redirige a la página principal
         flash('Archivo procesado y datos migrados con éxito.', 'success')
-        return redirect(url_for('index'))
+        return redirect(url_for('migracion'))
         
 
 
@@ -79,7 +79,7 @@ def configure_routes(app):
             db.session.rollback()
             flash(f'Error cancelar migracion: {e}', 'danger')
         
-        return redirect(url_for('index'))         
+        return redirect(url_for('migracion'))         
     
     
     
