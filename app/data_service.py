@@ -115,7 +115,7 @@ def migrar_beneficios_excel(file):
         # Realizar la consulta para verificar si existen registros
         query = text("""
             SELECT * 
-            FROM sistemabase.beneficios_migracion
+            FROM beneficios_migracion
             WHERE anio = :anio 
             AND mes = :mes
             AND codigo_concepto = :codigo_concepto
