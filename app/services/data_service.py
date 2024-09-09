@@ -6,18 +6,18 @@ import pandas as pd
 from flask import current_app as app
 from sqlalchemy import text
 from config import db
-from app.models import  Beneficio
+from app.models.beneficio_model import  Beneficio
 
 
 
-
-def migrar_beneficios_excel(file):    
+def migrar_beneficios_excel(file, usuario):    
     """Procesa el archivo Excel y migra los datos a la base de datos."""
     
     # Generar un UUID para esta migración
     proceso_id = str(uuid.uuid4().hex)
     
-   
+    # Imprimir el valor del usuario
+    print(f"El usuario es: {usuario}")
     
     # Leer el archivo Excel
     df = pd.read_excel(file, sheet_name=0)  

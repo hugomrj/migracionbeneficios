@@ -90,17 +90,24 @@
 
 
                 <div class="d-flex">
-                    <form action="{{ url_for('eliminar_registros', proceso_id=proceso_id) }}" method="post">
-                        <button type="submit" 
-                        class="btn btn-danger mr-2"  style="width: 180px;">
-                        Cancelar migracion</button>
-                    </form>
 
 
+
+                    <form action="{{ url_for('eliminar_registros', 
+                            proceso_id=proceso_id,  usuario=usuario, form=form ) }}" method="post">
+                        <button type="submit" class="btn btn-danger mr-2" style="width: 180px;">
+                            Cancelar migración
+                        </button>
+                    </form>                    
+
+
+                    
                     <a class="btn btn-primary" style="width: 180px;"
-                        href="{{ url_for('confirmar_migracion', proceso_id=proceso_id) }}">
+                        href="{{ url_for('confirmar_migracion', 
+                            proceso_id=proceso_id, usuario=usuario, form=form) }}">
                         Confirmar migración
                     </a>
+                
 
 
                 </div>
