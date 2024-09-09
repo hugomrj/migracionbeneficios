@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, logging
 from app.routes import configure_routes
 from config import DevelopmentConfig, ProductionConfig, db
 import os
@@ -43,6 +43,30 @@ def create_app():
     # Imprimir la URL de la base de datos configurada
     print(f"Configuración activa: {config_class}")
     print(f"URL de la base de datos: {app.config.get('SQLALCHEMY_DATABASE_URI', 'No URL configured')}")
+
+
+
+
+
+
+    if app.debug:
+        app.logger.info("La aplicación está en modo de depuración.")
+    else:
+        app.logger.info("La aplicación está en modo de producción.")
+
+
+    # Configurar logging
+    if not app.debug:  # Solo si no está en modo de depuración
+        gunicorn_logger = logging.getLogger('gunicorn.error')
+        app.logger.handlers = gunicorn_logger.handlers
+        app.logger.setLevel(gunicorn_logger.level)
+
+    # Registrar información usando logging en vez de print
+    app.logger.info(f"Configuración activa: {config_class}")
+    app.logger.info(f"URL de la base de datos: {app.config.get('SQLALCHEMY_DATABASE_URI', 'No URL configured')}")
+
+
+
 
     return app
 
