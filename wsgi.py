@@ -1,5 +1,10 @@
 import logging
+import os
 from run import create_app
+
+# Establecer FLASK_ENV antes de crear la aplicación
+os.environ['FLASK_ENV'] = 'ProductionConfig' 
+
 
 app = create_app()
 
