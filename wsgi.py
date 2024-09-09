@@ -29,8 +29,7 @@ app.logger.addHandler(handler)
 app.logger.setLevel(logging.INFO)
 
 # Registrar información sobre la configuración y la base de datos
-app.logger.info(f"Config wsgi")
-app.logger.info(f"Configuración activa: {os.getenv('FLASK_ENV', 'No FLASK_ENV configured')}")
+app.logger.info(f"Config wsgi : {os.getenv('FLASK_ENV', 'No FLASK_ENV configured')}")
 app.logger.info(f"URL de la base de datos: {app.config.get('SQLALCHEMY_DATABASE_URI', 'No URL configured')}")
 
 
