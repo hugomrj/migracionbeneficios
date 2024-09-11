@@ -21,7 +21,7 @@ def guardar_bitacora(usuario, form, proceso_id):
             
             # Ahora puedes usar estos valores para cualquier propósito, por ejemplo, al guardar en la bitacora
             descripcion = (
-                f"Proceso confirmado. "
+                f"Migracion de beneficios de excel a mysql:  "
                 f"Mes: {mes}, Año: {anio}, Concepto: {codigo_concepto}, Planilla: {planilla}"
             )
             
