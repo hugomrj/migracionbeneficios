@@ -126,6 +126,11 @@
                     <table class="table table-sm table-striped">
                         <thead>
                             <tr>
+                                <th>Anio</th>
+                                <th>Mes</th>
+                                <th>Concepto</th>
+                                <th>Planilla</th>
+
                                 <th>Cédula</th>
                                 <th>Presupuesto</th>
                                 <th>Devengado</th>
@@ -136,6 +141,11 @@
                         <tbody>
                             {% for beneficio in beneficios %}
                                 <tr>
+                                    <td>{{ beneficio.anio }}</td>
+                                    <td>{{ beneficio.mes }}</td>
+                                    <td>{{ beneficio.codigo_concepto }}</td>
+                                    <td>{{ beneficio.planilla }}</td>
+
                                     <td>{{ beneficio.cedula }}</td>
                                     <td>{{ beneficio.presupues | format_number }}</td>
                                     <td>{{ beneficio.devengado | format_number }}</td>

@@ -37,3 +37,6 @@ def guardar_bitacora(usuario, form, proceso_id):
             print(f"No se encontró ningún registro para proceso_id: {proceso_id}")
     except NoResultFound:
         print(f"No se encontró ningún registro para proceso_id: {proceso_id}")
+
+
+
