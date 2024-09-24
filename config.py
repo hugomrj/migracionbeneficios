@@ -25,16 +25,30 @@ class Config:
             f"{name}"
         )
 
+    @classmethod
+    def get_bitacora_database_uri(cls):
+        return "mysql+mysqlconnector://ususis:new210729@192.168.204.26:3306/control_usuario"
+
+
+
+
 class DevelopmentConfig(Config):
     @classmethod
     def load_env(cls):
         load_dotenv('.env.dev')
         print("Loaded .env.dev")
 
+
     @classmethod
     def init_app(cls, app):
         app.config['SQLALCHEMY_DATABASE_URI'] = cls.get_database_uri()
+        app.config['SQLALCHEMY_BINDS'] = {
+            'bitacora_db': cls.get_bitacora_database_uri()
+        }
         app.config['DEBUG'] = True
+
+
+
 
 class ProductionConfig(Config):
     @classmethod
@@ -42,7 +56,12 @@ class ProductionConfig(Config):
         load_dotenv('.env.prod')
         print("Loaded .env.prod")
 
+
     @classmethod
     def init_app(cls, app):
         app.config['SQLALCHEMY_DATABASE_URI'] = cls.get_database_uri()
+        app.config['SQLALCHEMY_BINDS'] = {
+            'bitacora_db': cls.get_bitacora_database_uri()
+        }
         app.config['DEBUG'] = False
+

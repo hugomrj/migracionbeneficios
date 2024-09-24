@@ -9,6 +9,11 @@ app.config.from_object(DevelopmentConfig)  # Cargar la configuración
 # Inicializar SQLAlchemy con la configuración de la aplicación
 db = SQLAlchemy(app)
 
+
+
+
+
+
 @app.route('/')
 def index():
     try:
@@ -20,4 +25,5 @@ def index():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+    
     

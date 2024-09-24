@@ -1,7 +1,10 @@
-from flask import Flask, logging
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from app.routes import configure_routes
-from config import DevelopmentConfig, ProductionConfig, db
+from config import  DevelopmentConfig, ProductionConfig, db
 import os
+
+
 
 def create_app():
     # Leer el entorno desde la variable de entorno FLASK_ENV (con valor predeterminado 'development')
@@ -25,6 +28,7 @@ def create_app():
     # Inicializar el ORM con la aplicación
     db.init_app(app)
 
+
     # Configurar las rutas
     configure_routes(app)
 
@@ -46,6 +50,10 @@ def create_app():
 
 
     return app
+
+
+
+
 
 if __name__ == '__main__':
     # Crear la aplicación Flask

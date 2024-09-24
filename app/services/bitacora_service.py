@@ -1,4 +1,6 @@
 
+from flask import app
+from flask_sqlalchemy import SQLAlchemy
 from app.models.beneficio_model import Beneficio
 from app.models.bitacora_model import Bitacora
 from config import db
@@ -25,14 +27,27 @@ def guardar_bitacora(usuario, form, proceso_id):
                 f"Mes: {mes}, Año: {anio}, Concepto: {codigo_concepto}, Planilla: {planilla}"
             )
             
+            
+            
+            
             # Llamar a la función para guardar en la bitacora
             bitacora = Bitacora(
                 id_usuario=usuario,
                 id_form=form,
                 descrip=descripcion
             )
+            # Agregar el nuevo registro a la sesión de la base de datos secundaria
             db.session.add(bitacora)
-            db.session.commit()
+            # Confirmar los cambios en la base de datos (commit)
+            try:
+                db.session.commit()
+                print("Registro agregado exitosamente a la tabla Bitacora.")
+            except Exception as e:
+                db.session.rollback()  # En caso de error, revertir los cambios
+                print(f"Error al agregar el registro: {str(e)}")            
+            
+            
+            
         else:
             print(f"No se encontró ningún registro para proceso_id: {proceso_id}")
     except NoResultFound:
