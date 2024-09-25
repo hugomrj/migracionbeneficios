@@ -27,8 +27,10 @@ def configure_routes(app):
                     
                     print(f"Redirigiendo a ver_resultados con proceso_id: {proceso_id}")
                     
+                    
                     return redirect(url_for('ver_resultados', proceso_id=proceso_id, 
                                             usuario=usuario, form=form))
+                    
                     
                     #flash('Archivo procesado y datos migrados con éxito.', 'success')
                 except Exception as e:
@@ -37,6 +39,8 @@ def configure_routes(app):
                 flash('Por favor, carga un archivo Excel válido.', 'warning')
             return redirect(url_for('migracion', usuario=usuario, form=form))
         return render_template('migracion.html')
+    
+    
     
     
     

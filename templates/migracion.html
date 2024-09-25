@@ -11,7 +11,10 @@
     <!-- Tu CSS personalizado -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body class="container mt-5">
+
+<!--   <body class="container mt-5">   -->
+
+<body class="container-fluid mt-5">
 
     <h2 class="mb-4">Subir Archivo Excel</h2>
     
@@ -27,12 +30,20 @@
     {% endwith %}
     
 
+    
+            
+
 
     <!-- Formulario de carga de archivos -->
-    <form method="post" enctype="multipart/form-data" class="form-group">
+    <form method="post" enctype="multipart/form-data" class="form-group" id="migracionForm">
         <div class="mb-5">
             <label for="file" class="form-label">Selecciona un archivo Excel:</label>
             <input type="file" id="file" name="file" accept=".xlsx" class="form-control" required>
+
+            <div id="spinner" class="spinner-border text-primary" style="display: none;" role="status">
+                <span class="sr-only">Cargando...</span>
+            </div>
+
         </div>
         
         <button type="submit" class="btn btn-primary" style="width: 180px;">Subir</button>
@@ -151,6 +162,17 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <!-- JavaScript personalizado -->
+    <script>
+        document.getElementById('migracionForm').onsubmit = function() {
+            // Mostrar spinner y desactivar el botón de enviar
+            document.getElementById('spinner').style.display = 'block';
+            document.getElementById('submitButton').disabled = true;
+        };
+    </script>
+
 
 </body>
 </html>
