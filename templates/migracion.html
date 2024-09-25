@@ -39,11 +39,6 @@
         <div class="mb-5">
             <label for="file" class="form-label">Selecciona un archivo Excel:</label>
             <input type="file" id="file" name="file" accept=".xlsx" class="form-control" required>
-
-            <div id="spinner" class="spinner-border text-primary" style="display: none;" role="status">
-                <span class="sr-only">Cargando...</span>
-            </div>
-
         </div>
         
         <button type="submit" class="btn btn-primary" style="width: 180px;">Subir</button>
@@ -166,11 +161,43 @@
 
     <!-- JavaScript personalizado -->
     <script>
+
         document.getElementById('migracionForm').onsubmit = function() {
-            // Mostrar spinner y desactivar el botón de enviar
-            document.getElementById('spinner').style.display = 'block';
+            // Crear el overlay que bloqueará la pantalla
+            var overlay = document.createElement('div');
+            overlay.id = 'overlay';
+            overlay.style.position = 'fixed';
+            overlay.style.top = 0;
+            overlay.style.left = 0;
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';  // Fondo oscuro semitransparente
+            overlay.style.zIndex = 9999;  // Asegurarse de que esté al frente
+            overlay.style.display = 'flex';
+            overlay.style.justifyContent = 'center';
+            overlay.style.alignItems = 'center';
+        
+            // Crear el spinner
+            var spinner = document.createElement('div');
+            spinner.className = 'spinner-border text-primary';
+            spinner.setAttribute('role', 'status');
+        
+            var spinnerText = document.createElement('span');
+            spinnerText.className = 'sr-only';
+            spinnerText.innerText = 'Cargando...';
+        
+            spinner.appendChild(spinnerText);
+            overlay.appendChild(spinner);
+        
+            // Añadir el overlay al body
+            document.body.appendChild(overlay);
+        
+            // Desactivar el botón de enviar para evitar múltiples envíos
             document.getElementById('submitButton').disabled = true;
         };
+        
+
+
     </script>
 
 
