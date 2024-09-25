@@ -18,7 +18,8 @@
         }
     </style>
 </head>
-<body>
+
+<body class="container-fluid mt-5">
     <div class="container mt-4">
         <h3 class="mb-4">Resultados de la Migración</h2>
         <p><strong style="color: green;">Proceso ID:</strong> {{ proceso_id }}</p>
@@ -104,7 +105,8 @@
                     
                     <a class="btn btn-primary" style="width: 180px;"
                         href="{{ url_for('confirmar_migracion', 
-                            proceso_id=proceso_id, usuario=usuario, form=form) }}">
+                            proceso_id=proceso_id, usuario=usuario, form=form) }}"
+                            id="btn_confirmar_migracion">
                         Confirmar migración
                     </a>
                 
@@ -168,5 +170,49 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <!-- JavaScript personalizado -->
+    <script>
+
+        document.getElementById('btn_confirmar_migracion').onclick = function(event) {
+            
+            // Crear el overlay que bloqueará la pantalla
+            var overlay = document.createElement('div');
+            overlay.id = 'overlay';
+            overlay.style.position = 'fixed';
+            overlay.style.top = 0;
+            overlay.style.left = 0;
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';  // Fondo oscuro semitransparente
+            overlay.style.zIndex = 9999;  // Asegurarse de que esté al frente
+            overlay.style.display = 'flex';
+            overlay.style.justifyContent = 'center';
+            overlay.style.alignItems = 'center';
+        
+            // Crear el spinner
+            var spinner = document.createElement('div');
+            spinner.className = 'spinner-border text-primary';
+            spinner.setAttribute('role', 'status');
+        
+            var spinnerText = document.createElement('span');
+            spinnerText.className = 'sr-only';
+            spinnerText.innerText = 'Cargando...';
+        
+            spinner.appendChild(spinnerText);
+            overlay.appendChild(spinner);
+        
+            // Añadir el overlay al body
+            document.body.appendChild(overlay);
+        
+            // Desactivar el botón de enviar para evitar múltiples envíos
+            document.getElementById('submitButton').disabled = true;
+        };
+        
+
+
+    </script>
+
 </body>
 </html>
