@@ -225,7 +225,8 @@ def migrar_beneficios_excel(file, usuario):
                     codigo_concepto=concepto,
                     planilla=planilla,
                     ccargo=0,  # Valor por defecto si no está en el Excel
-                    tipo_traba=0  # Valor por defecto si no está en el Excel
+                    tipo_traba=0,
+                    id_usuario=usuario
                 )
                 # Agregar la instancia a la sesión
                 db.session.add(beneficio)

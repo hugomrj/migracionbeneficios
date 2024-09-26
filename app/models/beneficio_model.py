@@ -26,5 +26,5 @@ class Beneficio(db.Model):
     tipo_traba = db.Column(db.Integer, nullable=False, default=0)
     proceso_id = db.Column(db.String(50), nullable=True)
 
-
+    id_usuario = db.Column(db.Integer, nullable=False, default=0)
 
