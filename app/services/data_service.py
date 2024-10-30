@@ -136,16 +136,21 @@ def migrar_beneficios_excel(file, usuario):
         else:
             # Si no se encuentran registros, continuar con el proceso
             print("No se encontraron registros duplicados, continuar...")
+            
+    
     except ValueError as ve:
-        # Capturamos solo el ValueError para no incluir otros errores
         db.session.rollback()
-        logging.error(f"ValorError: {ve} - Proceso ID: {proceso_id}")  # Registra el error
+        logging.error(f"ValorError en la fila {index + 1}: {ve} - Proceso ID: {proceso_id}")
+        print(f"Error en la fila {index + 1}: {ve}")
         raise ve
+
+    
     except Exception as e:
         # Otras excepciones no deseadas se manejan aquí sin afectar el mensaje anterior
         db.session.rollback()
-        logging.error(f"Error: {e} - Proceso ID: {proceso_id}")  # Registra el error
+        logging.error(f"Error en la fila {index + 1}: {e} - Proceso ID: {proceso_id}")
         raise ValueError("Error al realizar la consulta, verifique la conexión o SQL.")
+
 
 
 
