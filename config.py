@@ -65,3 +65,11 @@ class ProductionConfig(Config):
         }
         app.config['DEBUG'] = False
 
+        # Configuración del pool de conexiones
+        app.config['SQLALCHEMY_POOL_SIZE'] = 10          # Número máximo de conexiones en el pool
+        app.config['SQLALCHEMY_MAX_OVERFLOW'] = 5        # Conexiones adicionales si el pool está lleno
+        app.config['SQLALCHEMY_POOL_TIMEOUT'] = 30       # Tiempo de espera antes de error si el pool está lleno
+        app.config['SQLALCHEMY_POOL_RECYCLE'] = 1800     # Reciclaje de conexiones cada 30 minutos
+
+
+

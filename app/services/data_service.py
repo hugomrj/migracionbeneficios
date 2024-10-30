@@ -1,5 +1,6 @@
 
 
+import logging
 import uuid
 import openpyxl
 import pandas as pd
@@ -138,12 +139,13 @@ def migrar_beneficios_excel(file, usuario):
     except ValueError as ve:
         # Capturamos solo el ValueError para no incluir otros errores
         db.session.rollback()
+        logging.error(f"ValorError: {ve} - Proceso ID: {proceso_id}")  # Registra el error
         raise ve
     except Exception as e:
         # Otras excepciones no deseadas se manejan aquí sin afectar el mensaje anterior
         db.session.rollback()
+        logging.error(f"Error: {e} - Proceso ID: {proceso_id}")  # Registra el error
         raise ValueError("Error al realizar la consulta, verifique la conexión o SQL.")
-
 
 
 

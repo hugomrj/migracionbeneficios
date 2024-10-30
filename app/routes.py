@@ -1,3 +1,4 @@
+import logging
 from flask import flash, request, redirect, url_for, render_template
 from sqlalchemy import func
 from app.services.bitacora_service import guardar_bitacora
@@ -34,6 +35,7 @@ def configure_routes(app):
                     
                     #flash('Archivo procesado y datos migrados con éxito.', 'success')
                 except Exception as e:
+                    logging.error(f'Error al procesar el archivo: {e}', exc_info=True) 
                     flash(f'Ocurrió un error al procesar el archivo: {e}', 'danger')
             else:
                 flash('Por favor, carga un archivo Excel válido.', 'warning')
